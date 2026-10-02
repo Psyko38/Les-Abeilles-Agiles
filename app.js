@@ -25,6 +25,15 @@ function getSeance() {
   return atelier.seances.find((s) => s.id === state.seanceId) || atelier.seances[0];
 }
 
+function plagesAge(ages) {
+  const text = String(ages || "");
+  const range = text.match(/(\d+)\s*[–—-]\s*(\d+)/);
+  if (range) return { min: Number(range[1]), max: Number(range[2]) };
+  const single = text.match(/\d+/);
+  if (single) return { min: Number(single[0]), max: Number(single[0]) };
+  return { min: 1, max: 120 };
+}
+
 function navHtml() {
   return `
     <nav class="nav" id="nav">
@@ -122,6 +131,13 @@ function renderReservation() {
   form.reset();
   clearErrors();
 
+  const bornes = plagesAge(atelier.ages);
+  const ageInput = form.elements.age;
+  ageInput.min = bornes.min;
+  ageInput.max = bornes.max;
+  document.getElementById("age-hint").textContent =
+    `Cet atelier accepte les âges de ${bornes.min} à ${bornes.max} ans.`;
+
   if (state.reservation) {
     form.elements.prenom.value = state.reservation.prenom;
     form.elements.nom.value = state.reservation.nom;
@@ -152,10 +168,27 @@ function navigate(vue) {
   window.scrollTo(0, 0);
 }
 
+const FIELDS = ["prenom", "nom", "age", "email"];
+
+function setError(name, message) {
+  const input = document.getElementById(name);
+  const err = document.getElementById(`err-${name}`);
+  if (!input || !err) return;
+  if (message) {
+    input.classList.add("invalid");
+    input.setAttribute("aria-invalid", "true");
+    err.textContent = message;
+    err.hidden = false;
+  } else {
+    input.classList.remove("invalid");
+    input.removeAttribute("aria-invalid");
+    err.textContent = "";
+    err.hidden = true;
+  }
+}
+
 function clearErrors() {
-  const form = document.getElementById("reservation-form");
-  form.querySelectorAll("input").forEach((i) => i.classList.remove("invalid"));
-  document.getElementById("form-error").hidden = true;
+  FIELDS.forEach((name) => setError(name, null));
 }
 
 function validateForm() {
@@ -169,29 +202,30 @@ function validateForm() {
     email: form.elements.email.value.trim(),
   };
 
-  const problems = [];
-  ["prenom", "nom", "age", "email"].forEach((name) => {
-    if (!values[name]) {
-      form.elements[name].classList.add("invalid");
-      problems.push("champ manquant");
+  if (!values.prenom) setError("prenom", "Le prénom est obligatoire.");
+  if (!values.nom) setError("nom", "Le nom est obligatoire.");
+
+  const atelier = getAtelier();
+  const bornes = atelier ? plagesAge(atelier.ages) : { min: 1, max: 120 };
+
+  if (!values.age) {
+    setError("age", "L'âge est obligatoire.");
+  } else {
+    const age = Number(values.age);
+    if (!Number.isInteger(age) || age < bornes.min || age > bornes.max) {
+      setError("age", `L'âge doit être compris entre ${bornes.min} et ${bornes.max} ans.`);
     }
-  });
-
-  const age = Number(values.age);
-  if (values.age && (!Number.isInteger(age) || age < 1 || age > 120)) {
-    form.elements.age.classList.add("invalid");
-    problems.push("âge invalide");
   }
 
-  if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-    form.elements.email.classList.add("invalid");
-    problems.push("e-mail invalide");
+  if (!values.email) {
+    setError("email", "L'e-mail est obligatoire.");
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+    setError("email", "Format d'e-mail invalide (ex. prenom@exemple.fr).");
   }
 
-  const errorEl = document.getElementById("form-error");
-  if (problems.length) {
-    errorEl.textContent = "Merci de corriger les champs en rouge.";
-    errorEl.hidden = false;
+  const firstInvalid = form.querySelector("input.invalid");
+  if (firstInvalid) {
+    firstInvalid.focus();
     return null;
   }
   return values;
@@ -248,7 +282,7 @@ document.getElementById("btn-confirm").addEventListener("click", () => {
 });
 
 document.getElementById("reservation-form").addEventListener("input", (e) => {
-  if (e.target.matches("input")) e.target.classList.remove("invalid");
+  if (e.target.matches("input")) setError(e.target.name, null);
 });
 
 document.getElementById("btn-back-home").addEventListener("click", () => {

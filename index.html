@@ -34,18 +34,21 @@
             <p id="chosen-session"></p>
             <form id="reservation-form" novalidate>
               <label for="prenom">Prénom</label>
-              <input type="text" id="prenom" name="prenom" autocomplete="given-name" required>
+              <input type="text" id="prenom" name="prenom" autocomplete="given-name" aria-describedby="err-prenom" required>
+              <p class="field-error" id="err-prenom" hidden></p>
 
               <label for="nom">Nom</label>
-              <input type="text" id="nom" name="nom" autocomplete="family-name" required>
+              <input type="text" id="nom" name="nom" autocomplete="family-name" aria-describedby="err-nom" required>
+              <p class="field-error" id="err-nom" hidden></p>
 
               <label for="age">Âge</label>
-              <input type="number" id="age" name="age" min="1" max="120" inputmode="numeric" required>
+              <p class="hint" id="age-hint"></p>
+              <input type="number" id="age" name="age" min="1" max="120" inputmode="numeric" aria-describedby="age-hint err-age" required>
+              <p class="field-error" id="err-age" hidden></p>
 
               <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" autocomplete="email" required>
-
-              <p class="error" id="form-error" hidden></p>
+              <input type="email" id="email" name="email" autocomplete="email" aria-describedby="err-email" required>
+              <p class="field-error" id="err-email" hidden></p>
             </form>
           </div>
         </div>
