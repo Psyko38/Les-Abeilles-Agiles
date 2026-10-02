@@ -1,7 +1,7 @@
 # Les-Abeilles-Agiles Bzz Bzzz
 
 ## Maquette
-Cris
+Chris
 
 ![Maquette](asset/1.png)
 
@@ -25,7 +25,7 @@ Mattéo
 - [ ] L’utilisateur doit pouvoir consulter le nombre de places restantes pour le rendez-vous.
 
 ## Pages
-Cris
+Chris
 ![Page 1](asset/p1.png)
 
 Hugo
