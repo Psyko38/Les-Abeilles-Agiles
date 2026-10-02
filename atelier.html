@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Les Abeilles Agiles — Nos ateliers</title>
+  <title>Fiche atelier — Les Abeilles Agiles</title>
   <link rel="stylesheet" href="styles.css">
   <script src="js/commun.js" defer></script>
-  <script src="js/liste.js" defer></script>
+  <script src="js/atelier.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#app">Aller au contenu principal</a>
   <div class="phone">
     <header class="topbar">
-      <a class="brand" href="index.html" aria-label="Les Abeilles Agiles, accueil">Logo</a>
+      <a href="index.html" aria-label="Retour à la liste des ateliers">Retour</a>
       <div class="topbar-right">
         <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu">Menu</button>
         <nav class="nav" id="nav" aria-label="Navigation principale">
-          <a href="index.html" aria-current="page">Nos ateliers</a>
+          <a href="index.html">Nos ateliers</a>
         </nav>
       </div>
     </header>
 
     <main id="app" tabindex="-1" aria-label="Contenu principal">
-      <section class="page" id="page-liste" aria-label="Liste des ateliers">
-        <div class="hero">
-          <h1>Nos Ateliers</h1>
-          <p>Trouver une activité</p>
+      <section class="page" id="page-fiche" aria-label="Fiche atelier">
+        <div class="detail-main" id="detail-cards"></div>
+        <div class="detail-side">
+          <form class="card" id="session-card" action="reservation.html" method="get" aria-label="Choix de la séance"></form>
+          <button class="btn" type="submit" form="session-card">Réserver cette séance</button>
         </div>
-        <div class="cards" id="list-cards"></div>
       </section>
     </main>
   </div>

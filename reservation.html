@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réservation — Les Abeilles Agiles</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="js/commun.js" defer></script>
+  <script src="js/reservation.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#app">Aller au contenu principal</a>
+  <div class="phone">
+    <header class="topbar">
+      <a href="atelier.html" id="back-link" aria-label="Retour à la fiche atelier">Retour</a>
+      <div class="topbar-right">
+        <span class="reserv-title">Réservation</span>
+        <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu">Menu</button>
+        <nav class="nav" id="nav" aria-label="Navigation principale">
+          <a href="index.html">Nos ateliers</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="app" tabindex="-1" aria-label="Contenu principal">
+      <section class="page" id="page-reservation" aria-label="Formulaire de réservation">
+        <div class="reserv-main">
+          <div class="card">
+            <h2>Séance choisie</h2>
+            <p id="chosen-session"></p>
+            <form id="reservation-form" aria-label="Formulaire de réservation" novalidate>
+              <label for="prenom">Prénom</label>
+              <input type="text" id="prenom" name="prenom" autocomplete="given-name" maxlength="100" aria-describedby="err-prenom" required>
+              <p class="field-error" id="err-prenom" role="alert" hidden></p>
+
+              <label for="nom">Nom</label>
+              <input type="text" id="nom" name="nom" autocomplete="family-name" maxlength="100" aria-describedby="err-nom" required>
+              <p class="field-error" id="err-nom" role="alert" hidden></p>
+
+              <label for="age">Âge</label>
+              <p class="hint" id="age-hint"></p>
+              <input type="number" id="age" name="age" min="1" max="120" inputmode="numeric" aria-describedby="age-hint err-age" required>
+              <p class="field-error" id="err-age" role="alert" hidden></p>
+
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" autocomplete="email" maxlength="100" aria-describedby="err-email" required>
+              <p class="field-error" id="err-email" role="alert" hidden></p>
+            </form>
+          </div>
+        </div>
+
+        <div class="reserv-aside">
+          <p class="card notice" role="note">Si vous avez moins de 18 ans, apportez une autorisation parentale.</p>
+          <button class="btn" id="btn-confirm" type="button">Confirmer la réservation</button>
+        </div>
+
+        <div class="card success success-block" id="success-card" role="status" tabindex="-1" hidden>
+          <h2>Réservation confirmée</h2>
+          <p id="success-summary"></p>
+          <a class="btn" href="index.html">Voir les autres ateliers</a>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
