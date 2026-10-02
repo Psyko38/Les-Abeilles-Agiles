@@ -20,8 +20,11 @@ function plagesAge(ages) {
 }
 
 function erreurPage(message) {
-  document.getElementById("app").innerHTML =
-    `<section class="page">
+  const app = document.getElementById("app");
+  const section = app.querySelector("section.page");
+  const cible = section && section.id ? ` id="${section.id}" tabindex="-1"` : "";
+  app.innerHTML =
+    `<section class="page"${cible}>
       <div class="card">${message}</div>
       <a class="btn" href="index.html">Voir la liste des ateliers</a>
     </section>`;
@@ -70,6 +73,13 @@ function initMenu() {
     if (nav.classList.contains("open") && e.target !== toggle && !nav.contains(e.target)) {
       closeNav();
     }
+  });
+
+  // Filet de sécurité : après un Tab, on vérifie où le focus a atterri.
+  document.addEventListener("keyup", (e) => {
+    if (e.key !== "Tab" || !nav.classList.contains("open")) return;
+    const actif = document.activeElement;
+    if (actif !== toggle && !nav.contains(actif)) closeNav();
   });
 
   document.addEventListener("click", (e) => {
