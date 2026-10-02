@@ -112,14 +112,14 @@ function renderFiche() {
     <h2>Séance</h2>
     <div class="sessions" role="radiogroup" aria-label="Choix de la séance">
       ${atelier.seances
-        .map(
-          (s) => `
+      .map(
+        (s) => `
         <label class="session-option">
           <input type="radio" name="seance" value="${s.id}" ${s.id === seance.id ? "checked" : ""}>
           <span>${s.label}</span>
         </label>`
-        )
-        .join("")}
+      )
+      .join("")}
     </div>`;
 }
 
@@ -172,7 +172,7 @@ function navigate(vue) {
 }
 
 const FIELDS = ["prenom", "nom", "age", "email"];
-const MAX_LENGTH = 100;
+const MAX_LENGTH = 40;
 
 function setError(name, message) {
   const input = document.getElementById(name);
