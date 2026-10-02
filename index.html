@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les Abeilles Agiles — Nos ateliers</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="phone">
+    <header class="topbar" id="topbar"></header>
+
+    <main id="app">
+      <section class="view" id="view-list" hidden>
+        <div class="hero">
+          <h1>Nos Ateliers</h1>
+          <p>Trouver une activité</p>
+        </div>
+        <div class="cards" id="list-cards"></div>
+      </section>
+
+      <section class="view" id="view-detail" hidden>
+        <div class="detail-main" id="detail-cards"></div>
+        <div class="detail-side">
+          <div class="card" id="session-card"></div>
+          <button class="btn" id="btn-reserve-session" type="button">Réserver cette séance</button>
+        </div>
+      </section>
+
+      <section class="view" id="view-reservation" hidden>
+        <div class="reserv-main">
+          <div class="card">
+            <h2>Séance choisie</h2>
+            <p id="chosen-session"></p>
+            <form id="reservation-form" novalidate>
+              <label for="prenom">Prénom</label>
+              <input type="text" id="prenom" name="prenom" autocomplete="given-name" required>
+
+              <label for="nom">Nom</label>
+              <input type="text" id="nom" name="nom" autocomplete="family-name" required>
+
+              <label for="age">Âge</label>
+              <input type="number" id="age" name="age" min="1" max="120" inputmode="numeric" required>
+
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+
+              <p class="error" id="form-error" hidden></p>
+            </form>
+          </div>
+        </div>
+
+        <div class="reserv-aside">
+          <p class="card notice">Si vous avez moins de 18 ans, apportez une autorisation parentale.</p>
+          <button class="btn" id="btn-confirm" type="button">Confirmer la réservation</button>
+        </div>
+      </section>
+
+      <section class="view" id="view-success" hidden>
+        <div class="card success">
+          <h2>Réservation confirmée</h2>
+          <p id="success-summary"></p>
+        </div>
+        <button class="btn" id="btn-back-home" type="button">Voir les autres ateliers</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
