@@ -10,8 +10,8 @@
   <div class="phone">
     <header class="topbar" id="topbar"></header>
 
-    <main id="app">
-      <section class="view" id="view-list" hidden>
+    <main id="app" aria-label="Contenu principal">
+      <section class="view" id="view-list" aria-label="Liste des ateliers" hidden>
         <div class="hero">
           <h1>Nos Ateliers</h1>
           <p>Trouver une activité</p>
@@ -19,7 +19,7 @@
         <div class="cards" id="list-cards"></div>
       </section>
 
-      <section class="view" id="view-detail" hidden>
+      <section class="view" id="view-detail" aria-label="Fiche atelier" hidden>
         <div class="detail-main" id="detail-cards"></div>
         <div class="detail-side">
           <div class="card" id="session-card"></div>
@@ -27,40 +27,40 @@
         </div>
       </section>
 
-      <section class="view" id="view-reservation" hidden>
+      <section class="view" id="view-reservation" aria-label="Formulaire de réservation" hidden>
         <div class="reserv-main">
           <div class="card">
             <h2>Séance choisie</h2>
             <p id="chosen-session"></p>
-            <form id="reservation-form" novalidate>
+            <form id="reservation-form" aria-label="Formulaire de réservation" novalidate>
               <label for="prenom">Prénom</label>
-              <input type="text" id="prenom" name="prenom" autocomplete="given-name" aria-describedby="err-prenom" required>
-              <p class="field-error" id="err-prenom" hidden></p>
+              <input type="text" id="prenom" name="prenom" autocomplete="given-name" maxlength="100" aria-describedby="err-prenom" required>
+              <p class="field-error" id="err-prenom" role="alert" hidden></p>
 
               <label for="nom">Nom</label>
-              <input type="text" id="nom" name="nom" autocomplete="family-name" aria-describedby="err-nom" required>
-              <p class="field-error" id="err-nom" hidden></p>
+              <input type="text" id="nom" name="nom" autocomplete="family-name" maxlength="100" aria-describedby="err-nom" required>
+              <p class="field-error" id="err-nom" role="alert" hidden></p>
 
               <label for="age">Âge</label>
               <p class="hint" id="age-hint"></p>
               <input type="number" id="age" name="age" min="1" max="120" inputmode="numeric" aria-describedby="age-hint err-age" required>
-              <p class="field-error" id="err-age" hidden></p>
+              <p class="field-error" id="err-age" role="alert" hidden></p>
 
               <label for="email">E-mail</label>
-              <input type="email" id="email" name="email" autocomplete="email" aria-describedby="err-email" required>
-              <p class="field-error" id="err-email" hidden></p>
+              <input type="email" id="email" name="email" autocomplete="email" maxlength="100" aria-describedby="err-email" required>
+              <p class="field-error" id="err-email" role="alert" hidden></p>
             </form>
           </div>
         </div>
 
         <div class="reserv-aside">
-          <p class="card notice">Si vous avez moins de 18 ans, apportez une autorisation parentale.</p>
+          <p class="card notice" role="note">Si vous avez moins de 18 ans, apportez une autorisation parentale.</p>
           <button class="btn" id="btn-confirm" type="button">Confirmer la réservation</button>
         </div>
       </section>
 
-      <section class="view" id="view-success" hidden>
-        <div class="card success">
+      <section class="view" id="view-success" aria-label="Confirmation de réservation" hidden>
+        <div class="card success" role="status">
           <h2>Réservation confirmée</h2>
           <p id="success-summary"></p>
         </div>

@@ -36,24 +36,24 @@ function plagesAge(ages) {
 
 function navHtml() {
   return `
-    <nav class="nav" id="nav">
+    <nav class="nav" id="nav" aria-label="Navigation principale">
       <button type="button" data-action="back-list">Nos ateliers</button>
     </nav>
-    <button type="button" class="menu-toggle" data-action="menu" aria-expanded="false" aria-controls="nav">Menu</button>`;
+    <button type="button" class="menu-toggle" data-action="menu" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu">Menu</button>`;
 }
 
 function renderTopbar() {
   let left = "";
   let title = "";
   if (state.vue === "liste") {
-    left = `<span class="brand">Logo</span>`;
+    left = `<span class="brand" aria-label="Les Abeilles Agiles, accueil">Logo</span>`;
   } else if (state.vue === "fiche") {
-    left = `<button type="button" data-action="back-list">Retour</button>`;
+    left = `<button type="button" data-action="back-list" aria-label="Retour à la liste des ateliers">Retour</button>`;
   } else if (state.vue === "reservation") {
-    left = `<button type="button" data-action="back-detail">Retour</button>`;
+    left = `<button type="button" data-action="back-detail" aria-label="Retour à la fiche atelier">Retour</button>`;
     title = `<span class="reserv-title">Réservation</span>`;
   } else {
-    left = `<span class="brand">Réservation</span>`;
+    left = `<span class="brand" aria-label="Les Abeilles Agiles, réservation en cours">Réservation</span>`;
   }
   topbar.innerHTML = `${left}<div class="topbar-right">${title}${navHtml()}</div>`;
 }
@@ -62,7 +62,10 @@ function closeMenu() {
   const nav = document.getElementById("nav");
   const toggle = topbar.querySelector(".menu-toggle");
   if (nav) nav.classList.remove("open");
-  if (toggle) toggle.setAttribute("aria-expanded", "false");
+  if (toggle) {
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Ouvrir le menu");
+  }
 }
 
 function renderListe() {
@@ -107,7 +110,7 @@ function renderFiche() {
 
   document.getElementById("session-card").innerHTML = `
     <h2>Séance</h2>
-    <div class="sessions">
+    <div class="sessions" role="radiogroup" aria-label="Choix de la séance">
       ${atelier.seances
         .map(
           (s) => `
@@ -169,6 +172,7 @@ function navigate(vue) {
 }
 
 const FIELDS = ["prenom", "nom", "age", "email"];
+const MAX_LENGTH = 100;
 
 function setError(name, message) {
   const input = document.getElementById(name);
@@ -202,8 +206,17 @@ function validateForm() {
     email: form.elements.email.value.trim(),
   };
 
-  if (!values.prenom) setError("prenom", "Le prénom est obligatoire.");
-  if (!values.nom) setError("nom", "Le nom est obligatoire.");
+  if (!values.prenom) {
+    setError("prenom", "Le prénom est obligatoire.");
+  } else if (values.prenom.length > MAX_LENGTH) {
+    setError("prenom", `${MAX_LENGTH} caractères maximum.`);
+  }
+
+  if (!values.nom) {
+    setError("nom", "Le nom est obligatoire.");
+  } else if (values.nom.length > MAX_LENGTH) {
+    setError("nom", `${MAX_LENGTH} caractères maximum.`);
+  }
 
   const atelier = getAtelier();
   const bornes = atelier ? plagesAge(atelier.ages) : { min: 1, max: 120 };
@@ -219,6 +232,8 @@ function validateForm() {
 
   if (!values.email) {
     setError("email", "L'e-mail est obligatoire.");
+  } else if (values.email.length > MAX_LENGTH) {
+    setError("email", `${MAX_LENGTH} caractères maximum.`);
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
     setError("email", "Format d'e-mail invalide (ex. prenom@exemple.fr).");
   }
@@ -239,6 +254,7 @@ topbar.addEventListener("click", (e) => {
     const nav = document.getElementById("nav");
     const open = nav.classList.toggle("open");
     btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "Fermer le menu" : "Ouvrir le menu");
     return;
   }
   if (action === "back-list") navigate("liste");
