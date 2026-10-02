@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Les Abeilles Agiles : ateliers de dessin, aquarelle, peinture, modelage et calligraphie. Dates, tarifs, lieux et réservation en ligne.">
   <title>Les Abeilles Agiles — Nos ateliers</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="js/commun.js" defer></script>
   <script src="js/liste.js" defer></script>
+  <script src="js/tab-partout.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#page-liste">Aller à la liste des ateliers</a>
   <div class="phone">
     <header class="topbar">
-      <a class="brand" href="index.html" aria-label="Les Abeilles Agiles, accueil">Logo</a>
+      <a class="brand" href="index.html">Les Abeilles Agiles</a>
       <div class="topbar-right">
         <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu">Menu</button>
         <nav class="nav" id="nav" aria-label="Navigation principale">
@@ -21,8 +23,10 @@
       </div>
     </header>
 
+    <a class="skip-link" href="#app">Aller au contenu principal</a>
+
     <main id="app" tabindex="-1" aria-label="Contenu principal">
-      <section class="page" id="page-liste" tabindex="-1" aria-label="Liste des ateliers">
+      <section class="page" id="page-liste" aria-label="Liste des ateliers">
         <div class="hero">
           <h1>Nos Ateliers</h1>
           <p>Trouver une activité</p>

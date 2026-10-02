@@ -19,7 +19,7 @@
   document.getElementById("detail-cards").innerHTML = `
     <div class="card">
       <div class="details">
-        <span class="title">${atelier.nom}</span>
+        <h1 class="title">${atelier.nom}</h1>
         <span>${atelier.descriptionLongue}</span>
         <span>Âges : ${atelier.ages}</span>
         <span>Prix : ${atelier.prix}</span>

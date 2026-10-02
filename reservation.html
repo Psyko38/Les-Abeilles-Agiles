@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Réserver une séance d'un atelier des Abeilles Agiles : choix de la séance et formulaire d'inscription.">
   <title>Réservation — Les Abeilles Agiles</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="js/commun.js" defer></script>
   <script src="js/reservation.js" defer></script>
+  <script src="js/tab-partout.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#page-reservation">Aller au formulaire de réservation</a>
   <div class="phone">
     <header class="topbar">
       <a href="atelier.html" id="back-link" aria-label="Retour à la fiche atelier">Retour</a>
@@ -22,9 +24,12 @@
       </div>
     </header>
 
+    <a class="skip-link" href="#app">Aller au contenu principal</a>
+
     <main id="app" tabindex="-1" aria-label="Contenu principal">
-      <section class="page" id="page-reservation" tabindex="-1" aria-label="Formulaire de réservation">
+      <section class="page" id="page-reservation" aria-label="Formulaire de réservation">
         <div class="reserv-main">
+          <h1 class="reserv-h1">Réservation</h1>
           <div class="card">
             <h2>Séance choisie</h2>
             <p id="chosen-session"></p>
@@ -51,7 +56,7 @@
 
         <div class="reserv-aside">
           <p class="card notice" role="note">Si vous avez moins de 18 ans, apportez une autorisation parentale.</p>
-          <button class="btn" id="btn-confirm" type="button">Confirmer la réservation</button>
+          <button class="btn" id="btn-confirm" type="submit" form="reservation-form">Confirmer la réservation</button>
         </div>
 
         <div class="card success success-block" id="success-card" role="status" tabindex="-1" hidden>

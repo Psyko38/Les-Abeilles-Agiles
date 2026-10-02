@@ -21,13 +21,14 @@ function plagesAge(ages) {
 
 function erreurPage(message) {
   const app = document.getElementById("app");
-  const section = app.querySelector("section.page");
-  const cible = section && section.id ? ` id="${section.id}" tabindex="-1"` : "";
   app.innerHTML =
-    `<section class="page"${cible}>
-      <div class="card">${message}</div>
+    `<section class="page">
+      <div class="card error-card" tabindex="-1">${message}</div>
       <a class="btn" href="index.html">Voir la liste des ateliers</a>
     </section>`;
+  // Le contenu de <main> est remplacé : on y place le focus pour que les
+  // utilisateurs clavier et lecteurs d'écran ne se retrouvent pas sur <body>.
+  app.querySelector(".error-card").focus();
 }
 
 function erreurChargement(err) {
@@ -66,20 +67,6 @@ function initMenu() {
     if (nav.classList.contains("open") && !nav.contains(e.relatedTarget) && e.relatedTarget !== toggle) {
       closeNav();
     }
-  });
-
-  // Le menu se ferme dès que le focus clavier le quitte (Tab / Shift+Tab).
-  document.addEventListener("focusin", (e) => {
-    if (nav.classList.contains("open") && e.target !== toggle && !nav.contains(e.target)) {
-      closeNav();
-    }
-  });
-
-  // Filet de sécurité : après un Tab, on vérifie où le focus a atterri.
-  document.addEventListener("keyup", (e) => {
-    if (e.key !== "Tab" || !nav.classList.contains("open")) return;
-    const actif = document.activeElement;
-    if (actif !== toggle && !nav.contains(actif)) closeNav();
   });
 
   document.addEventListener("click", (e) => {

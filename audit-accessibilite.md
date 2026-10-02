@@ -1,5 +1,7 @@
 # Audit d'accessibilité — Les Abeilles Agiles
 
+> **Évolution** : ce rapport initial a été repris et **dépassé par [audit-complet.md](audit-complet.md)** (2026-10-02), qui revalide chaque point, ajoute l'ordre de tabulation, le code, la performance, la sécurité, le SEO et l'ergonomie. Les points 1, 2, 3, 4, 5, 6 et 8 ci-dessous sont **corrigés** dans le code ; le point 7 reste à arbitrer (voir §2.2 du rapport complet).
+
 Périmètre : [index.html](index.html), [atelier.html](atelier.html), [reservation.html](reservation.html), [styles.css](styles.css), [js/commun.js](js/commun.js), [js/liste.js](js/liste.js), [js/atelier.js](js/atelier.js), [js/reservation.js](js/reservation.js).
 Référentiel : WCAG 2.2 (niveaux A et AA). Audit manuel du code (pas de test utilisateur).
 

@@ -5,7 +5,7 @@
   --card-hover: #cfcfcf;
   --field: #f4f4f4;
   --text: #111111;
-  --muted: #8a8a8a;
+  --muted: #575757;
   --error: #b00020;
   --radius: 4px;
   --content: 1120px;
@@ -159,6 +159,12 @@ body {
   gap: 4px;
 }
 
+.details h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+}
+
 .sessions {
   display: flex;
   flex-direction: column;
@@ -183,7 +189,7 @@ body {
   padding: 0;
   border-radius: 50%;
   background: #efefef;
-  border: 1px solid #bdbdbd;
+  border: 1px solid #767676;
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -244,7 +250,7 @@ body {
   font: inherit;
   font-size: 17px;
   padding: 10px 12px;
-  border: 1px solid #c8c8c8;
+  border: 1px solid #767676;
   border-radius: var(--radius);
   background: var(--field);
   color: var(--text);
@@ -301,6 +307,12 @@ body {
 
 .reserv-title {
   font-size: 19px;
+}
+
+.reserv-h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .topbar .menu-toggle {
@@ -391,8 +403,13 @@ body {
   }
 
   .card h2,
-  .card-btn .title {
+  .card-btn .title,
+  .details h1 {
     font-size: 19px;
+  }
+
+  .reserv-h1 {
+    font-size: 21px;
   }
 
   .btn {
@@ -537,9 +554,7 @@ input:focus-visible,
   background: var(--card-hover);
 }
 
-#app:focus,
-section.page:focus,
-section.page:focus-visible {
+#app:focus {
   outline: none;
 }
 
@@ -550,7 +565,17 @@ input,
   scroll-margin-top: 96px;
 }
 
-#app,
-.page {
+#app {
   scroll-margin-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -114,7 +114,8 @@ function afficherConfirmation(values, atelier, seance) {
     if (e.target.matches("input")) setError(e.target.name, null);
   });
 
-  document.getElementById("btn-confirm").addEventListener("click", () => {
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
     const values = validateForm(form, bornes);
     if (!values) return;
     afficherConfirmation(values, atelier, seance);
