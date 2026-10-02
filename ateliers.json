@@ -1,0 +1,98 @@
+[
+  {
+    "id": "dessin-court",
+    "nom": "Atelier dessin",
+    "descriptionCourte": "Description courte",
+    "descriptionLongue": "Un atelier encadré pour découvrir les bases du dessin : lignes, formes, ombres et mise en page. Chacun repart avec une réalisation finale.",
+    "ages": "18–20 ans",
+    "prix": "5 €",
+    "duree": "1 h 30",
+    "places": 12,
+    "aApporter": "Crayons, feuilles",
+    "lieu": "12 Rue de Paris",
+    "seances": [
+      { "id": "s1", "label": "Mer. 12 juin — 14 h", "resume": "Mer. 12 juin à 14 h" },
+      { "id": "s2", "label": "Sam. 15 juin — 10 h", "resume": "Sam. 15 juin à 10 h" }
+    ]
+  },
+  {
+    "id": "dessin-long",
+    "nom": "Atelier dessin",
+    "descriptionCourte": "Description long",
+    "descriptionLongue": "Un accompagnement sur plusieurs séances, adapté aux plus jeunes : observation, couleur et créativité, avec un suivi personnalisé tout au long de l'atelier.",
+    "ages": "8–12 ans",
+    "prix": "5 €",
+    "duree": "2 h",
+    "places": 10,
+    "aApporter": "Crayons, feutres, cahier",
+    "lieu": "12 Rue de Paris",
+    "seances": [
+      { "id": "s3", "label": "Mer. 12 juin — 14 h", "resume": "Mer. 12 juin à 14 h" },
+      { "id": "s4", "label": "Sam. 15 juin — 10 h", "resume": "Sam. 15 juin à 10 h" }
+    ]
+  },
+  {
+    "id": "aquarelle",
+    "nom": "Atelier aquarelle",
+    "descriptionCourte": "Initiation aux couleurs",
+    "descriptionLongue": "Découverte de l'aquarelle : mise en eau, superpositions et dégradés. Matériel de base fourni, chacun réalise une composition sur le thème de la nature.",
+    "ages": "14–18 ans",
+    "prix": "8 €",
+    "duree": "2 h",
+    "places": 8,
+    "aApporter": "Pinceaux, chiffon",
+    "lieu": "12 Rue de Paris",
+    "seances": [
+      { "id": "s5", "label": "Jeu. 13 juin — 17 h", "resume": "Jeu. 13 juin à 17 h" },
+      { "id": "s6", "label": "Sam. 15 juin — 14 h", "resume": "Sam. 15 juin à 14 h" }
+    ]
+  },
+  {
+    "id": "peinture",
+    "nom": "Atelier peinture",
+    "descriptionCourte": "Toile et couleurs vives",
+    "descriptionLongue": "Peinture à l'acrylique sur toile : composition, matière et texture. Un encadrement complet pour partir de l'idée jusqu'à l'œuvre finie, prête à accrocher.",
+    "ages": "16–25 ans",
+    "prix": "10 €",
+    "duree": "2 h 30",
+    "places": 10,
+    "aApporter": "Tablier, vieux vêtements",
+    "lieu": "8 Rue des Lilas",
+    "seances": [
+      { "id": "s7", "label": "Ven. 14 juin — 18 h", "resume": "Ven. 14 juin à 18 h" },
+      { "id": "s8", "label": "Dim. 16 juin — 10 h", "resume": "Dim. 16 juin à 10 h" }
+    ]
+  },
+  {
+    "id": "modelage",
+    "nom": "Atelier modelage",
+    "descriptionCourte": "Terre et forme",
+    "descriptionLongue": "Initiation au modelage en terre argileuse : techniques de modelage, de plaquage et d'assemblage. Les pièces sont cuites puis remises lors d'une séance suivante.",
+    "ages": "10–14 ans",
+    "prix": "7 €",
+    "duree": "1 h 30",
+    "places": 12,
+    "aApporter": "Tablier",
+    "lieu": "8 Rue des Lilas",
+    "seances": [
+      { "id": "s9", "label": "Mer. 12 juin — 16 h", "resume": "Mer. 12 juin à 16 h" },
+      { "id": "s10", "label": "Sam. 15 juin — 15 h", "resume": "Sam. 15 juin à 15 h" }
+    ]
+  },
+  {
+    "id": "calligraphie",
+    "nom": "Atelier calligraphie",
+    "descriptionCourte": "Lettres et tracés",
+    "descriptionLongue": "Maîtriser les gestes fondamentaux de la calligraphie latine : posture, tenue du porte-plume, rythme et régularité. Chacun repart avec une planche d'exercices et une composition finale.",
+    "ages": "16–99 ans",
+    "prix": "9 €",
+    "duree": "2 h",
+    "places": 8,
+    "aApporter": "Règle, gomme",
+    "lieu": "12 Rue de Paris",
+    "seances": [
+      { "id": "s11", "label": "Jeu. 13 juin — 14 h", "resume": "Jeu. 13 juin à 14 h" },
+      { "id": "s12", "label": "Sam. 15 juin — 11 h", "resume": "Sam. 15 juin à 11 h" }
+    ]
+  }
+]

@@ -1,35 +1,4 @@
-const ateliers = [
-  {
-    id: "dessin-court",
-    nom: "Atelier dessin",
-    descriptionCourte: "Description courte",
-    descriptionLongue:
-      "Un atelier encadré pour découvrir les bases du dessin : lignes, formes, ombres et mise en page. Chacun repart avec une réalisation finale.",
-    ages: "18–20 ans",
-    prix: "5 €",
-    aApporter: "Crayons, feuilles",
-    lieu: "12 Rue de Paris",
-    seances: [
-      { id: "s1", label: "Mer. 12 juin — 14 h", resume: "Mer. 12 juin à 14 h" },
-      { id: "s2", label: "Sam. 15 juin — 10 h", resume: "Sam. 15 juin à 10 h" },
-    ],
-  },
-  {
-    id: "dessin-long",
-    nom: "Atelier dessin",
-    descriptionCourte: "Description long",
-    descriptionLongue:
-      "Un accompagnement sur plusieurs séances, adapté aux plus jeunes : observation, couleur et créativité, avec un suivi personnalisé tout au long de l'atelier.",
-    ages: "8–12 ans",
-    prix: "5 €",
-    aApporter: "Crayons, feutres, cahier",
-    lieu: "12 Rue de Paris",
-    seances: [
-      { id: "s3", label: "Mer. 12 juin — 14 h", resume: "Mer. 12 juin à 14 h" },
-      { id: "s4", label: "Sam. 15 juin — 10 h", resume: "Sam. 15 juin à 10 h" },
-    ],
-  },
-];
+let ateliers = [];
 
 const state = {
   vue: "liste",
@@ -114,6 +83,8 @@ function renderFiche() {
         <span>${atelier.descriptionLongue}</span>
         <span>Âges : ${atelier.ages}</span>
         <span>Prix : ${atelier.prix}</span>
+        <span>Durée : ${atelier.duree}</span>
+        <span>Places : ${atelier.places}</span>
       </div>
     </div>
     <div class="card">
@@ -152,10 +123,10 @@ function renderReservation() {
   clearErrors();
 
   if (state.reservation) {
-    form.prenom.value = state.reservation.prenom;
-    form.nom.value = state.reservation.nom;
-    form.age.value = state.reservation.age;
-    form.email.value = state.reservation.email;
+    form.elements.prenom.value = state.reservation.prenom;
+    form.elements.nom.value = state.reservation.nom;
+    form.elements.age.value = state.reservation.age;
+    form.elements.email.value = state.reservation.email;
   }
 }
 
@@ -192,28 +163,28 @@ function validateForm() {
   clearErrors();
 
   const values = {
-    prenom: form.prenom.value.trim(),
-    nom: form.nom.value.trim(),
-    age: form.age.value.trim(),
-    email: form.email.value.trim(),
+    prenom: form.elements.prenom.value.trim(),
+    nom: form.elements.nom.value.trim(),
+    age: form.elements.age.value.trim(),
+    email: form.elements.email.value.trim(),
   };
 
   const problems = [];
   ["prenom", "nom", "age", "email"].forEach((name) => {
     if (!values[name]) {
-      form[name].classList.add("invalid");
+      form.elements[name].classList.add("invalid");
       problems.push("champ manquant");
     }
   });
 
   const age = Number(values.age);
   if (values.age && (!Number.isInteger(age) || age < 1 || age > 120)) {
-    form.age.classList.add("invalid");
+    form.elements.age.classList.add("invalid");
     problems.push("âge invalide");
   }
 
   if (values.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-    form.email.classList.add("invalid");
+    form.elements.email.classList.add("invalid");
     problems.push("e-mail invalide");
   }
 
@@ -286,4 +257,22 @@ document.getElementById("btn-back-home").addEventListener("click", () => {
   navigate("liste");
 });
 
-navigate("liste");
+async function chargerAteliers() {
+  const res = await fetch("./ateliers.json");
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+async function init() {
+  try {
+    ateliers = await chargerAteliers();
+  } catch (err) {
+    document.getElementById("app").innerHTML =
+      `<div class="card">Impossible de charger les ateliers (${err.message}). ` +
+      `Servez le site via un serveur local : <code>python3 -m http.server 8000</code>.</div>`;
+    return;
+  }
+  navigate("liste");
+}
+
+init();
