@@ -62,6 +62,7 @@ Aucune tabulation (caractère `\t`) n'existe dans le projet : indentation en **2
 | Après confirmation | Focus posé sur la carte `#success-card` (`role="status"`, `tabindex="-1"`), remontée en haut de page | idem |
 
 - « Menu » est `display: none` ≥ 768 px → non focalisable, d'où le décalage entre les deux colonnes.
+- **Évolution ultérieure (`js/tab-partout.js`, demande postérieure)** : à partir du rang 4, *chaque* élément du contenu devient un arrêt de tabulation — **38 arrêts** sur `index.html`, **29** sur la fiche atelier, **22** sur la réservation. Les rangs 1 / 2 / 3 restent inchangés (voir R8 pour l'impact WCAG).
 - Aucun `tabindex` positif, aucun piège à focus, aucun élément masqué restant focalisable (`display: none` sur `nav` fermé, `hidden` sur la carte de succès et sur `.reserv-main`/`.reserv-aside`).
 - Ordre visuel = ordre du DOM partout (le déroulant mobile et le lien d'évitement fixe sont les deux seules discordances, traités au §1.1 et §1.4).
 
@@ -92,6 +93,7 @@ Aucune tabulation (caractère `\t`) n'existe dans le projet : indentation en **2
 | R5 | Sans JavaScript, la page reste vide (aucun `<noscript>`) | 1.3.1 / ergonomie | Message `<noscript>` |
 | R6 | Aucun test automatisé (axe-core) ni test lecteur d'écran | Couverture | Ajouter axe + test NVDA/VoiceOver |
 | R7 | Lien d'évitement en **3ᵉ** position (demande du client, §1.4) au lieu de la 1ʳᵉ | Faible : 2 focusables seulement dans l'en-tête, mais on saute la nav *après* l'avoir tabulée | Remettre le lien d'évitement avant le `</header>` si l'en-tête gagne des liens |
+| R8 | **`js/tab-partout.js` : tous les éléments (`h1`, `p`, `div`, `span`, `label`, `section`…) reçoivent `tabindex="0"`** — demande explicite du client | **Écart volontaire à WCAG 2.4.3** : la séquence passe à 38 arrêts (`index`), 29 (fiche), 22 (réservation) ; ornisés au focus, `div`/`span`/`label` n'apportent rien et rallongent la navigation clavier. Les flèches des radios fonctionnent toujours (vérifié) | Désactiver en 1 ligne : `TOUT_FOCUSABLE = false` dans `js/tab-partout.js`, ou retirer le `<script>` des 3 pages. `CHROME_FOCUSABLE = true` ajouterait aussi les conteneurs d'en-tête (et ferait sauter les rangs 1/2/3) |
 
 ### 2.3 Points conformes (à conserver)
 
@@ -209,12 +211,26 @@ Aucune tabulation (caractère `\t`) n'existe dans le projet : indentation en **2
 | `reservation.html` | Bouton `Menu` avant `<nav>` ; `<a class="skip-link">` après `</header>` (rang 3) ; `<h1 class="reserv-h1">` ajouté ; `#btn-confirm` → `type="submit" form="reservation-form"` ; `<meta name="description">` ; `<link rel="icon">` |
 | `styles.css` | `--muted` `#8a8a8a` → `#575757` ; bordures de champs `#c8c8c8` → `#767676` ; bordures de radios `#bdbdbd` → `#767676` ; règles `.details h1` et `.reserv-h1` (+ déclinaison 360 px) ; `@media (prefers-reduced-motion: reduce)` |
 | `js/atelier.js` | Titre d'atelier `<span class="title">` → `<h1 class="title">` |
-| `js/commun.js` | `erreurPage()` : `tabindex="-1"` + focus sur la carte d'erreur |
+| `js/commun.js` | `erreurPage()` : `tabindex="0"` (**et non `-1`**) + focus sur la carte d'erreur — le message n'a aucun enfant focusable, il devait rester atteignable au Tab |
 | `js/reservation.js` | Soumission par `submit` (Entrée **et** clic) au lieu d'un `click` sur le bouton |
 | `favicon.svg` | Nouveau : icône SVG (supprime le 404 `/favicon.ico`) |
+| `js/tab-partout.js` | **Nouveau** : `tabindex="0"` sur tous les éléments du contenu (`h1`, `p`, `div`, `span`, `label`, `section`…), y compris ceux injectés après coup (`MutationObserver`) ; chargé en `defer` en dernier sur les 3 pages. Interrupteurs `TOUT_FOCUSABLE` et `CHROME_FOCUSABLE` pour annuler (voir R8) |
 | `audit-complet.md` | Ce rapport |
 
-Vérifications après corrections : `node --check` OK sur les 4 scripts, `ateliers.json` valide, HTML bien imbriqué (aucune balise orpheline, aucun `id` dupliqué), serveur local → 200 sur toutes les ressources.
+Vérifications après corrections : `node --check` OK sur les 5 scripts, `ateliers.json` valide, HTML bien imbriqué (aucune balise orpheline, aucun `id` dupliqué), serveur local → 200 sur toutes les ressources, et **tests navigateur réel (Playwright/Chromium, headless)** : ordre de tabulation relevé élément par élément (38 / 29 / 22 arrêts), `h1` et `p` atteignables au Tab avec outline 3 px, contenu injecté après coup bien focusable, menu mobile ouvrant correctement (`aria-expanded`), flèches du groupe de radios toujours opérationnelles.
+
+**Couverture des infos utiles au Tab (tests, états compris)** :
+
+| Page / état | Infos atteignables |
+|---|---|
+| `index.html` (liste) | **29/29** — titre, sous-titre, et pour les 6 ateliers : nom, description, âges, prix |
+| `atelier.html` (fiche) | **17/17** — titre, description, âges, prix, durée, places, à apporter, lieu, séances, bouton |
+| `reservation.html` (formulaire) | **13/13** — titre, séance choisie, indice d'âge, labels, notice, bouton |
+| `reservation.html` (erreurs) | messages `role="alert"` atteignables ✓ |
+| `reservation.html` (confirmation) | `h2`, résumé, lien de retour atteignables ✓ |
+| Échec de chargement | message d'erreur atteignable **après correction** (`tabindex="0"`) ✓ |
+
+Seuls éléments **volontairement** hors tabulation : `.phone`, `.topbar`, `.topbar-right`, `nav` (chrome, texte 100 % dupliqué par ses enfants focusables — les focuser relirait toute la page), `main#app` (cible du lien d'évitement, `tabindex="-1"`) et `#success-card` (conteneur `role="status"`, son `h2`/résumé/lien sont eux atteignables). Rien d'utile n'est donc perdu.
 
 ---
 

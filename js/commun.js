@@ -23,11 +23,13 @@ function erreurPage(message) {
   const app = document.getElementById("app");
   app.innerHTML =
     `<section class="page">
-      <div class="card error-card" tabindex="-1">${message}</div>
+      <div class="card error-card" tabindex="0">${message}</div>
       <a class="btn" href="index.html">Voir la liste des ateliers</a>
     </section>`;
   // Le contenu de <main> est remplacé : on y place le focus pour que les
   // utilisateurs clavier et lecteurs d'écran ne se retrouvent pas sur <body>.
+  // tabindex="0" (et non -1) : le message n'a aucun enfant focusable, il doit
+  // rester atteignable au Tab même après qu'on en soit sorti.
   app.querySelector(".error-card").focus();
 }
 
