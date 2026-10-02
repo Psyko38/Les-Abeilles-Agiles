@@ -23,14 +23,19 @@
       </div>
     </header>
 
-    <a class="skip-link" href="#app">Aller au contenu principal</a>
+    <nav class="skip-links" aria-label="Accès rapide">
+      <a class="skip-link" href="#app">Aller au contenu principal</a>
+      <a class="skip-link" href="#session-card">Aller au choix de la séance</a>
+      <a class="skip-link" href="#btn-reserve">Aller au bouton Réserver cette séance</a>
+      <a class="skip-link" href="index.html">Aller à la liste des ateliers</a>
+    </nav>
 
     <main id="app" tabindex="-1" aria-label="Contenu principal">
       <section class="page" id="page-fiche" aria-label="Fiche atelier">
         <div class="detail-main" id="detail-cards"></div>
         <div class="detail-side">
-          <form class="card" id="session-card" action="reservation.html" method="get" aria-label="Choix de la séance"></form>
-          <button class="btn" type="submit" form="session-card">Réserver cette séance</button>
+          <form class="card skip-target" id="session-card" tabindex="-1" action="reservation.html" method="get" aria-label="Choix de la séance"></form>
+          <button class="btn" id="btn-reserve" type="submit" form="session-card">Réserver cette séance</button>
         </div>
       </section>
     </main>

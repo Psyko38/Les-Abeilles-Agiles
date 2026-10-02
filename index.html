@@ -23,7 +23,11 @@
       </div>
     </header>
 
-    <a class="skip-link" href="#app">Aller au contenu principal</a>
+    <nav class="skip-links" aria-label="Accès rapide">
+      <a class="skip-link" href="#app">Aller au contenu principal</a>
+      <a class="skip-link" href="#list-cards">Aller à la liste des ateliers</a>
+      <a class="skip-link" href="#first-card">Aller au premier atelier</a>
+    </nav>
 
     <main id="app" tabindex="-1" aria-label="Contenu principal">
       <section class="page" id="page-liste" aria-label="Liste des ateliers">
@@ -31,7 +35,7 @@
           <h1>Nos Ateliers</h1>
           <p>Trouver une activité</p>
         </div>
-        <div class="cards" id="list-cards"></div>
+        <div class="cards skip-target" id="list-cards" tabindex="-1"></div>
       </section>
     </main>
   </div>

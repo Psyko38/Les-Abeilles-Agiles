@@ -26,6 +26,12 @@ function erreurPage(message) {
       <div class="card error-card" tabindex="0">${message}</div>
       <a class="btn" href="index.html">Voir la liste des ateliers</a>
     </section>`;
+  // Le contenu de <main> est remplacé : les liens d'accès rapide qui pointaient
+  // dedans n'ont plus de cible. On ne garde que la destination toujours valide
+  // (le contenu principal lui-même).
+  document
+    .querySelectorAll('.skip-link[href^="#"]:not([href="#app"])')
+    .forEach((lien) => lien.remove());
   // Le contenu de <main> est remplacé : on y place le focus pour que les
   // utilisateurs clavier et lecteurs d'écran ne se retrouvent pas sur <body>.
   // tabindex="0" (et non -1) : le message n'a aucun enfant focusable, il doit
@@ -80,5 +86,31 @@ function initMenu() {
       closeNav();
       toggle.focus();
     }
+  });
+}
+
+/**
+ * Liens d'accès rapide (groupe `.skip-links`).
+ *
+ * Leur cible peut manquer : carte principale encore en cours de rendu
+ * (#first-card, injecté par js/liste.js) ou contenu remplacé par erreurPage()
+ * (qui retire normalement les liens morts). On évite alors un clic sans effet :
+ * le focus part sur le contenu principal, présent sur les 3 pages.
+ */
+function initSkipLinks() {
+  document.querySelectorAll(".skip-links").forEach((groupe) => {
+    groupe.addEventListener("click", (e) => {
+      const lien = e.target.closest('a.skip-link[href^="#"]');
+      if (!lien) return;
+      const id = decodeURIComponent(lien.getAttribute("href").slice(1));
+      if (id && document.getElementById(id)) return;
+
+      e.preventDefault();
+      const app = document.getElementById("app");
+      if (app) {
+        app.focus();
+        app.scrollIntoView({ block: "start" });
+      }
+    });
   });
 }

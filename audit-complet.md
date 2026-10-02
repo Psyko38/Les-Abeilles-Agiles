@@ -5,6 +5,8 @@
 **Référentiels** : WCAG 2.2 (A + AA), bonnes pratiques code / performance / sécurité / SEO / ergonomie.
 **Méthode** : revue de code statique, calcul des ratios de contraste (formule WCAG), vérification de l'ordre de focus élément par élément, test de servi sur `python3 -m http.server` (toutes les ressources répondent 200). Pas de test utilisateur, pas d'outil automatisé (axe/Lighthouse) ni de lecteur d'écran : à prévoir en complément.
 
+> **Évolution (post-audit)** : le lien d'évitement unique est devenu un **groupe de liens d'accès rapide** (contenu, boutons, formulaire, autres pages) — voir **§10**. Les §1.4, §1.5 et §8 décrivent l'état du code au moment du rapport, antérieur à cette évolution.
+
 ---
 
 ## 0. Point de départ : les « tabulations »
@@ -249,3 +251,42 @@ Seuls éléments **volontairement** hors tabulation : `.phone`, `.topbar`, `.top
 **Basse priorité**
 7. Nettoyage : `role="radiogroup"` (R3), `span.reserv-title` (R4), position du lien d'évitement (R7), double bloc `#app` (C5), `.editorconfig` (C4).
 8. Captures manquantes du README (`asset/p1.png`, `p2.png`, `p3.png`), contenus de `ateliers.json` (U1, U5).
+
+---
+
+## 10. Évolution : le lien d'évitement devient un groupe d'accès rapide
+
+**Demande** : le lien d'évitement unique (« Aller au contenu principal ») n'offrait qu'une seule destination ; on veut atteindre rapidement les **boutons** et les **autres pages**.
+
+**Principe** : le `<a class="skip-link">` unique est remplacé, au même endroit (après `</header>`, le groupe reste donc le premier arrêt après l'en-tête), par un groupe révélé au premier `Tab` :
+
+```html
+<nav class="skip-links" aria-label="Accès rapide">
+  …
+</nav>
+```
+
+| Page | Destinations (ordre du Tab) |
+|---|---|
+| `index.html` | contenu principal `#app` → liste des ateliers `#list-cards` → **1ʳᵉ carte** `#first-card` |
+| `atelier.html` | `#app` → choix de la séance `#session-card` → **bouton « Réserver cette séance »** `#btn-reserve` → liste des ateliers (`index.html`) |
+| `reservation.html` | `#app` → formulaire `#reservation-form` → **bouton « Confirmer la réservation »** `#btn-confirm` → liste des ateliers (`index.html`) |
+
+**Mise en œuvre**
+
+| Fichier | Modification |
+|---|---|
+| `styles.css` | `.skip-links` en `position: fixed`, rangé au-dessus du viewport (`transform: translateY(calc(-100% - 24px))`) puis révélé d'un bloc par `:focus-within` — **les liens restent focusables au Tab même masqués** (pas de `display:none` ni de `visibility:hidden`). Rangé au-dessus du viewport puis révélé d'un bloc, le groupe est centré horizontalement et s'adapte de 320 px au desktop. `.skip-link` en pastilles sombres, `transition: transform 0.15 s` neutralisée par le bloc `prefers-reduced-motion` existant. Nouvelle classe `.skip-target` (`scroll-margin-top: 96px`) sur les cibles qui n'avaient pas de marge sous la barre collante. |
+| `index.html` | Groupe de 3 liens ; `#list-cards` → `tabindex="-1"` + `.skip-target`. |
+| `atelier.html` | Groupe de 4 liens ; `#session-card` → `tabindex="-1"` + `.skip-target` ; `id="btn-reserve"` ajouté au bouton de réservation. |
+| `reservation.html` | Groupe de 4 liens ; `#reservation-form` → `tabindex="-1"` + `.skip-target`. |
+| `js/liste.js` | `id="first-card"` sur la 1ʳᵉ carte (cible du 3ᵉ lien, injectée après le `fetch`). |
+| `js/commun.js` | `initSkipLinks()` : si la cible d'un lien d'accès est absente du DOM, `preventDefault()` + focus sur `#app` (pas de clic mort) ; `erreurPage()` retire les liens fragment vers le contenu remplacé (le lien vers `index.html`, toujours valide, est conservé). |
+| `js/reservation.js` | Après confirmation, les liens vers `#reservation-form` et `#btn-confirm` (contenus masqués) sont retirés de la tabulation (`hidden`). |
+| `js/atelier.js`, `js/liste.js`, `js/reservation.js` | `initSkipLinks()` appelé à côté de `initMenu()`. |
+
+Les cibles `#list-cards`, `#session-card` et `#reservation-form` reçoivent `tabindex="-1"` : elles deviennent des points d'entrée focalisables par fragment **sans** devenir des arrêts de tabulation (`js/tab-partout.js` ignore les éléments qui portent déjà un `tabindex`).
+
+**Rang dans l'ordre de tabulation** (mesuré) : `1. en-tête → 2. en-tête → 3. groupe d'accès rapide → 4+ contenu`, identique à la demande historique §1.4. Exception : `reservation.html` **mobile**, où le groupe démarre au rang 4 — le `span.reserv-title` reçoit un `tabindex="0"` de `tab-partout.js` (même origine que R4/R8).
+
+**Vérifications (Playwright/Chromium headless, 320 / 390 / 1280 px)** : ordre de tabulation, révélation du groupe au focus et rangement au repos, activation de chaque destination (focus posé sur `main#app`, `#list-cards`, `#first-card`, `#session-card`, `#btn-reserve`, `#reservation-form`, `#btn-confirm`), navigation vers `index.html`, absence de débordement horizontal à 320 px, `prefers-reduced-motion`, retrait des liens devenus morts (confirmation de réservation, page d'erreur), repli sur `#app` si la cible disparaît, aucune erreur JS.

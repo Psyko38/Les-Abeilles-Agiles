@@ -71,6 +71,11 @@ function validateForm(form, bornes) {
 function afficherConfirmation(values, atelier, seance) {
   document.querySelector(".reserv-main").hidden = true;
   document.querySelector(".reserv-aside").hidden = true;
+  // Formulaire et bouton ont disparu : leurs liens d'accès rapide n'auraient
+  // plus de cible, on les retire du groupe.
+  document
+    .querySelectorAll('[href="#reservation-form"], [href="#btn-confirm"]')
+    .forEach((lien) => (lien.hidden = true));
   document.getElementById("success-summary").textContent =
     `${values.prenom} ${values.nom}, votre séance du ${seance.resume} (${atelier.nom}) est réservée. ` +
     `Une confirmation a été envoyée à ${values.email}.`;
@@ -123,3 +128,4 @@ function afficherConfirmation(values, atelier, seance) {
 })();
 
 initMenu();
+initSkipLinks();

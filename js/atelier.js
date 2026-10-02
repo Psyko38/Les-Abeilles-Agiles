@@ -53,3 +53,4 @@
 })();
 
 initMenu();
+initSkipLinks();
